@@ -6,6 +6,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+class ConfigError(Exception):
+    pass
+
+
 @dataclass(frozen=True)
 class Settings:
     api_key: str
@@ -16,7 +20,7 @@ class Settings:
 def _require(name: str) -> str:
     value = os.getenv(name)
     if not value:
-        raise RuntimeError(f"Missing {name} in .env")
+        raise ConfigError(f"Missing {name} in .env")
     return value
 
 

@@ -3,7 +3,7 @@ from collections.abc import Iterator
 import gradio as gr
 from openai.types.chat import ChatCompletionMessageParam
 
-from llm_chatbot.llm import stream_reply
+from llm_chatbot.llm import ChatError, stream_reply
 
 
 def _to_text(content: object) -> str:
@@ -31,9 +31,13 @@ def respond(message: str, history: list) -> Iterator[str]:
     messages.append({"role": "user", "content": message})
 
     reply = ""
-    for piece in stream_reply(messages):
-        reply += piece
-        yield reply
+    try:
+        for piece in stream_reply(messages):
+            reply += piece
+            yield reply
+    except ChatError as error:
+        note = f"**Error:** {error}"
+        yield f"{reply}\n\n{note}" if reply else note
 
 
 def build_app() -> gr.ChatInterface:
