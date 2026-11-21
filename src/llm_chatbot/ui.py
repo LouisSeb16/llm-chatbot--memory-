@@ -43,6 +43,6 @@ def respond(message: str, history: list) -> Iterator[str]:
 def build_app() -> gr.ChatInterface:
     return gr.ChatInterface(
         fn=respond,
-        title="LLM Chatbot",
+        title="Play box",
         description="A simple streaming chatbot built with Python.",
     )
