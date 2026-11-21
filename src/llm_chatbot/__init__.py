@@ -1,2 +1,4 @@
 def main() -> None:
-    print("Hello from llm-chatbot!")
+    from llm_chatbot.ui import build_app
+
+    build_app().launch()
